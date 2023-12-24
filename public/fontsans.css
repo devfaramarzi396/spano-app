@@ -1,0 +1,13 @@
+* {
+
+    font-family: "Iran-Sans";
+
+}
+
+@font-face {
+    font-family: "Iran-Sans";
+    src: url("./fonts/iran-sans/IRANSans.ttf") format("truetype"),
+        url("./fonts/iran-sans/IRANSans_Black.ttf") format("truetype"),
+        url("./fonts/iran-sans/IRANSans_Bold.ttf") format("truetype"),
+        url("./fonts/iran-sans/IRANSans_UltraLight.ttf") format("truetype");
+}
