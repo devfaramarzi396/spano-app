@@ -1,5 +1,5 @@
 <template>
-  <div class="tabs-container">
+  <div class="home-page-container">
     
     <table class="table table-striped">
       <thead>
@@ -69,9 +69,9 @@ export default {
 </script>
 
 <style lang="scss">
-.tabs-container {
-  padding: 60px 33px;
-  // background-color: #011313;
+.home-page-container {
+  margin: 120px auto;
+  max-width: 700px;
   width: 100%;
   height: 100vh;
 }

@@ -3,15 +3,13 @@
     <div class="tabs">
       <div class="tab active">Edit</div>
       <div class="tab" @click="getAttributes">Attributes</div>
-      <!-- <div class="tab" @click="getProvince">Weather</div>
-      <div class="tab">Profile</div> -->
     </div>
 
     <div class="content-container">
       <!-- EDIT -->
       <div class="content active">
-        <!-- <Dashboard :name="userName" /> -->
-        <div class="m-3 w-100 p-2 text-success">
+        <EditProduct  />
+        <!-- <div class="m-3 w-100 p-2 text-success">
           edit page {{ $route.params.id }}
 
           <form>
@@ -81,7 +79,7 @@
               ارسال
             </button>
           </form>
-        </div>
+        </div> -->
       </div>
 
       <!-- ATTRIBUTES -->
@@ -287,17 +285,21 @@
 </template>
 
 <script>
+import EditProduct from "./components/Edit-Product.vue";
 import axios from "axios";
 export default {
   name: "edit",
+  components:{
+    EditProduct
+  },
   data() {
     return {
       prouctId: null,
-      singleProduct: {
-        title: null,
-        status: null,
-        isPublished: null,
-      },
+      // singleProduct: {
+      //   title: null,
+      //   status: null,
+      //   isPublished: null,
+      // },
       attributes: null,
       attribute: {
         id: null,
@@ -305,16 +307,15 @@ export default {
         attrValueId: null,
         attrText: null,
       },
-
       newAttrId: null,
       newValueText: null,
       newAttrText: null,
 
-      listStatus: [
-        { id: 1, text: "درانتظار تایید", value: "درانتظار تایید" },
-        { id: 2, text: "منتشرشده", value: "منتشرشده" },
-        { id: 3, text: "نیاز به ویرایش", value: "نیاز به ویرایش" },
-      ],
+      // listStatus: [
+      //   { id: 1, text: "درانتظار تایید", value: "درانتظار تایید" },
+      //   { id: 2, text: "منتشرشده", value: "منتشرشده" },
+      //   { id: 3, text: "نیاز به ویرایش", value: "نیاز به ویرایش" },
+      // ],
       addedAttributes: {
         id: null,
         attrId: null,
@@ -323,97 +324,89 @@ export default {
       },
     };
   },
-  //   watch: {
-  //     $route(to) {
-
-  //         console.log('to.params',to.params.id);
-
-  //     },
-  //   },
-  async created() {
-    this.prouctId = this.$route.params.id;
-    await this.getSingleProduct();
-  },
-  mounted() {
-    this.loadedComponent();
-  },
+ 
+  // async created() {
+  //   this.prouctId = this.$route.params.id;
+  //   await this.getSingleProduct();
+  // },
+  // mounted() {
+  //   this.loadedComponent();
+  // },
   methods: {
-    loadedComponent() {
-      const tabs = document.querySelectorAll(".tabs-container .tab");
-      const contents = document.querySelectorAll(".tabs-container .content");
+    // loadedComponent() {
+    //   const tabs = document.querySelectorAll(".tabs-container .tab");
+    //   const contents = document.querySelectorAll(".tabs-container .content");
 
-      const removeActiveClass = () => {
-        tabs.forEach((t) => {
-          t.classList.remove("active");
-        });
+    //   const removeActiveClass = () => {
+    //     tabs.forEach((t) => {
+    //       t.classList.remove("active");
+    //     });
 
-        contents.forEach((c) => {
-          c.classList.remove("active");
-        });
-      };
+    //     contents.forEach((c) => {
+    //       c.classList.remove("active");
+    //     });
+    //   };
 
-      tabs.forEach((t, i) => {
-        t.addEventListener("click", () => {
-          removeActiveClass();
-          contents[i].classList.add("active");
-          t.classList.add("active");
-        });
-      });
-    },
+    //   tabs.forEach((t, i) => {
+    //     t.addEventListener("click", () => {
+    //       removeActiveClass();
+    //       contents[i].classList.add("active");
+    //       t.classList.add("active");
+    //     });
+    //   });
+    // },
     //  ------ get single product
-    async getSingleProduct() {
-      // console.log("this.prouctIdddd", this.prouctId);
-      await axios
-        .get(`https://ramaapi.sepanodata.ir/api/Product/${this.prouctId}`)
-        .then((res) => {
-          const result = res.data;
-          this.singleProduct.title = result.title;
-          this.singleProduct.status = result.status;
-          this.singleProduct.isPublished = result.isPublished;
-          // console.log("result single", result);
-        })
-        .catch((err) => {
-          console.log("ERROR", err.message);
-        });
-    },
+    // async getSingleProduct() {
+    //   await axios
+    //     .get(`https://ramaapi.sepanodata.ir/api/Product/${this.prouctId}`)
+    //     .then((res) => {
+    //       const result = res.data;
+    //       this.singleProduct.title = result.title;
+    //       this.singleProduct.status = result.status;
+    //       this.singleProduct.isPublished = result.isPublished;
+    //     })
+    //     .catch((err) => {
+    //       console.log("ERROR", err.message);
+    //     });
+    // },
     // ------ save
-    handleTitle(e) {
-      this.singleProduct.title = e.target.value;
-    },
-    handleStatus(e) {
-      this.singleProduct.status = e.target.value;
-    },
-    handleIsPublished() {
-      this.singleProduct.isPublished = !this.singleProduct.isPublished;
-    },
-    saveProduct(e) {
-      e.preventDefault();
-      console.log("new single Product", this.singleProduct);
-      let statusId = this.listStatus.find(
-        (item) => item.value === this.singleProduct.status
-      ).id;
-      let isPublished = this.singleProduct.isPublished === true ? 1 : 0;
-      console.log("id", this.prouctId);
-      console.log("this.singleProduct.title", this.singleProduct.title);
-      console.log("statusId", statusId);
-      console.log("isPublished", isPublished);
-      axios
-        .post("https://ramaapi.sepanodata.ir/api/Product/Save", {
-          id: this.prouctId,
-          title: this.singleProduct.title,
-          statusId: statusId,
-          isPublished: isPublished,
-        })
-        .then((res) => {
-          console.log("res.data new single", res);
-          setTimeout(() => {
-            this.$router.push("/");
-          }, 1000);
-        })
-        .catch((err) => {
-          console.log("ERROR", err.message);
-        });
-    },
+    // handleTitle(e) {
+    //   this.singleProduct.title = e.target.value;
+    // },
+    // handleStatus(e) {
+    //   this.singleProduct.status = e.target.value;
+    // },
+    // handleIsPublished() {
+    //   this.singleProduct.isPublished = !this.singleProduct.isPublished;
+    // },
+    // saveProduct(e) {
+    //   e.preventDefault();
+    //   console.log("new single Product", this.singleProduct);
+    //   let statusId = this.listStatus.find(
+    //     (item) => item.value === this.singleProduct.status
+    //   ).id;
+    //   let isPublished = this.singleProduct.isPublished === true ? 1 : 0;
+    //   console.log("id", this.prouctId);
+    //   console.log("this.singleProduct.title", this.singleProduct.title);
+    //   console.log("statusId", statusId);
+    //   console.log("isPublished", isPublished);
+    //   axios
+    //     .post("https://ramaapi.sepanodata.ir/api/Product/Save", {
+    //       id: this.prouctId,
+    //       title: this.singleProduct.title,
+    //       statusId: statusId,
+    //       isPublished: isPublished,
+    //     })
+    //     .then((res) => {
+    //       console.log("res.data new single", res);
+    //       setTimeout(() => {
+    //         this.$router.push("/");
+    //       }, 1000);
+    //     })
+    //     .catch((err) => {
+    //       console.log("ERROR", err.message);
+    //     });
+    // },
     // ------ getAttributes
     async getAttributes() {
       await axios
