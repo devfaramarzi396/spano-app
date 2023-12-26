@@ -49,8 +49,6 @@ export default {
 
   methods: {
     getProduct() {
-      // let url_attributes = "https://ramaapi.sepanodata.ir/api/Attributes/";
-      // let url_category = "https://ramaapi.sepanodata.ir/api/Category/";
       let url_product = "https://ramaapi.sepanodata.ir/api/Product/";
       axios
         .get(url_product)
@@ -73,7 +71,7 @@ export default {
 <style lang="scss">
 .tabs-container {
   padding: 60px 33px;
-  background-color: #011313;
+  // background-color: #011313;
   width: 100%;
   height: 100vh;
 }
