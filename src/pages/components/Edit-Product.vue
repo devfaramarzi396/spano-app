@@ -1,11 +1,13 @@
 <template>
   <div class="m-3 w-100 p-2 text-success">
-    edit page {{ $route.params.id }}
+    <div class="spinner-border text-success" role="status" v-if="loadingEditProduct">
+      <span class="visually-hidden">Loading...</span>
+    </div>
     <form>
       <div class="form-row">
         <div class="form-group col-md-6">
           <label for="inputEmail4"
-            ><span class="text-dark fs-6">عنوان</span></label
+            ><span class="text-dark small">عنوان</span></label
           >
           <input
             @change="handleTitle($event)"
@@ -19,8 +21,8 @@
       </div>
 
       <div class="form-row">
-        <div class="col-auto my-1 py-2 text-dark">
-          <label class="mr-sm-2 text-dark fs-6" for="inlineFormCustomSelect"
+        <div class="col-auto  my-1 py-2 text-dark">
+          <label class="mr-sm-2 text-dark small" for="inlineFormCustomSelect"
             >وضیعت</label
           >
           <br />
@@ -50,7 +52,7 @@
             type="checkbox"
             id="gridCheck"
           />
-          <label class="form-check-label me-5 text-dark fs-6" for="gridCheck">
+          <label class="form-check-label me-5 text-dark small" for="gridCheck">
             وضیعت انتشار
           </label>
         </div>
@@ -58,7 +60,7 @@
       <button
         @click="saveProduct($event)"
         type="button"
-        class="btn btn-primary mt-3"
+        class="btn btn-sm btn-primary mt-3"
       >
         ارسال
       </button>
@@ -72,6 +74,7 @@ import axios from "axios";
 export default {
   data() {
     return {
+      loadingEditProduct:true,
       prouctId: null,
       singleProduct: {
         title: null,
@@ -80,8 +83,8 @@ export default {
       },
 
       listStatus: [
-        { id: 1, text: "درانتظار تایید", value: "درانتظار تایید" },
-        { id: 2, text: "منتشرشده", value: "منتشرشده" },
+        { id: 1, text: "در انتظار تایید", value: "در انتظار تایید" },
+        { id: 2, text: "منتشر شده", value: "منتشر شده" },
         { id: 3, text: "نیاز به ویرایش", value: "نیاز به ویرایش" },
       ],
     };
@@ -127,9 +130,11 @@ export default {
           this.singleProduct.title = result.title;
           this.singleProduct.status = result.status;
           this.singleProduct.isPublished = result.isPublished;
-          // console.log("result single", result);
+          this.loadingEditProduct=false
+          console.log("result single", result);
         })
         .catch((err) => {
+          this.loadingEditProduct=false
           console.log("ERROR", err.message);
         });
     },
@@ -144,15 +149,16 @@ export default {
     },
     saveProduct(e) {
       e.preventDefault();
-      console.log("new single Product", this.singleProduct);
+      // console.log("new single Product", this.singleProduct);
       let statusId = this.listStatus.find(
         (item) => item.value === this.singleProduct.status
       ).id;
+     
       let isPublished = this.singleProduct.isPublished === true ? 1 : 0;
-      console.log("id", this.prouctId);
-      console.log("this.singleProduct.title", this.singleProduct.title);
-      console.log("statusId", statusId);
-      console.log("isPublished", isPublished);
+      // console.log("id", this.prouctId);
+      // console.log("this.singleProduct.title", this.singleProduct.title);
+      // console.log("statusId", statusId);
+      // console.log("isPublished", isPublished);
       axios
         .post("https://ramaapi.sepanodata.ir/api/Product/Save", {
           id: this.prouctId,
