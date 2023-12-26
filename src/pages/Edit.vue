@@ -55,7 +55,6 @@ export default {
   }
 }
 .tabs-container .tabs {
-  /* width: 300px; */
   width: 100%;
   background: #000;
   color: #fff;

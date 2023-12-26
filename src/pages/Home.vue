@@ -58,9 +58,7 @@ export default {
           this.clmns = result.clmns;
           this.products = result.data;
           this.loadingProduct=false
-          // console.log("result", result);
-          // console.log("products", this.products);
-          // console.log("clmns", this.clmns);
+        
         })
         .catch((err) => {
           this.loadingProduct=false

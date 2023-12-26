@@ -159,7 +159,6 @@ export default {
           const total = res.data;
           this.attributes = total;
           this.loadingAttr=false
-          // console.log(" this.attributes ", this.attributes);
         })
         .catch((err) => {
           this.loadingAttr=false
@@ -168,7 +167,6 @@ export default {
     },
 
     editAttrModal(attr) {
-      console.log("attr", attr);
       this.attribute.attrText = attr.attrText;
       this.attribute.attrId = attr.attrId;
       this.attribute.id = attr.id;

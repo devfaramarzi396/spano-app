@@ -122,7 +122,6 @@ export default {
     },
     //  ------ get single product
     async getSingleProduct() {
-      // console.log("this.prouctIdddd", this.prouctId);
       await axios
         .get(`https://ramaapi.sepanodata.ir/api/Product/${this.prouctId}`)
         .then((res) => {
@@ -131,7 +130,7 @@ export default {
           this.singleProduct.status = result.status;
           this.singleProduct.isPublished = result.isPublished;
           this.loadingEditProduct=false
-          console.log("result single", result);
+          
         })
         .catch((err) => {
           this.loadingEditProduct=false
@@ -149,16 +148,12 @@ export default {
     },
     saveProduct(e) {
       e.preventDefault();
-      // console.log("new single Product", this.singleProduct);
       let statusId = this.listStatus.find(
         (item) => item.value === this.singleProduct.status
       ).id;
      
       let isPublished = this.singleProduct.isPublished === true ? 1 : 0;
-      // console.log("id", this.prouctId);
-      // console.log("this.singleProduct.title", this.singleProduct.title);
-      // console.log("statusId", statusId);
-      // console.log("isPublished", isPublished);
+    
       axios
         .post("https://ramaapi.sepanodata.ir/api/Product/Save", {
           id: this.prouctId,
@@ -167,7 +162,7 @@ export default {
           isPublished: isPublished,
         })
         .then((res) => {
-          console.log("res.data new single", res);
+          console.log("res", res);
           setTimeout(() => {
             this.$router.push("/");
           }, 1000);
